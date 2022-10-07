@@ -3,7 +3,7 @@
 # execute and close the connection
 from dbhelpers import conn_exe_close
 # import request, make_response,jsonify from flask
-from flask import make_response, jsonify
+from flask import Flask, make_response, jsonify
 
 # single function to handle database interactions
 # and based on results will send errors
@@ -15,6 +15,7 @@ def get_display_results(statement,args_list):
         return make_response(jsonify(results), 400)
     else:
         return make_response(jsonify(results) , 500)
+
 
 # will verifiy end points arguments for presence
 # if necessary arguments not sent then remind the user to send
