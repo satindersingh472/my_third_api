@@ -10,12 +10,18 @@ import json
 # and based on results will send errors
 def get_display_results(statement,args_list):
     results = conn_exe_close(statement,args_list)
+    # results usuually will be in json format and if it is true 
+    # then it wll return the result
     if(type(results) == list):
+        # if result is a list but there is no data that client is looking
+        # then just a msg will be shown instead of an empty list
         if(len(results) == 0):
             return 'No results matched your search'
         return make_response(json.dumps(results, default=str), 200)
+        # if error then probably string will get return 
     elif(type(results) == str):
         return make_response(json.dumps(results, default=str), 400)
+        # else just return the result and show the error
     else:
         return make_response(json.dumps(results, default=str) , 500)
 
