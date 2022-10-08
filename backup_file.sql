@@ -32,7 +32,7 @@ CREATE TABLE `philosopher` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `philosopher_UN` (`name`),
   CONSTRAINT `philosopher_CHECK` CHECK (`date_of_death` > `date_of_birth`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,8 +42,8 @@ CREATE TABLE `philosopher` (
 LOCK TABLES `philosopher` WRITE;
 /*!40000 ALTER TABLE `philosopher` DISABLE KEYS */;
 INSERT INTO `philosopher` VALUES
-(1,'satinder','i am satinder singh','1994-11-15','1999-07-09','https://images.unsplash.com/photo-1664575262619-b28fef7a40a4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxlZGl0b3JpYWwtZmVlZHwxfHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=500&q=60'),
-(2,'sam','Hi i am sam the philosopher','2000-12-12','2020-12-11','https://images.unsplash.com/photo-1664575262619-b28fef7a40a4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxlZGl0b3JpYWwtZmVlZHwxfHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=500&q=60');
+(6,'tom','i am tom ','1990-08-04','2020-08-07','https://images.unsplash.com/photo-1664574654529-b60630f33fdb?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxlZGl0b3JpYWwtZmVlZHwxNnx8fGVufDB8fHx8&auto=format&fit=crop&w=500&q=60'),
+(7,'jag','i am jag','1955-05-05','2022-04-05','https://images.unsplash.com/photo-1664574654529-b60630f33fdb?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxlZGl0b3JpYWwtZmVlZHwxNnx8fGVufDB8fHx8&auto=format&fit=crop&w=500&q=60');
 /*!40000 ALTER TABLE `philosopher` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -61,7 +61,7 @@ CREATE TABLE `quote` (
   PRIMARY KEY (`id`),
   KEY `quote_FK` (`philosopher_id`),
   CONSTRAINT `quote_FK` FOREIGN KEY (`philosopher_id`) REFERENCES `philosopher` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -71,12 +71,11 @@ CREATE TABLE `quote` (
 LOCK TABLES `quote` WRITE;
 /*!40000 ALTER TABLE `quote` DISABLE KEYS */;
 INSERT INTO `quote` VALUES
-(1,'Today is a wonderfull day',1),
-(3,'Today is a rainy day',2),
-(5,'This is the practice content',1),
-(11,'this is the practice quote',1),
-(13,'this is the practice quote',2),
-(14,'this is the practice quote for the id 2 ',2);
+(17,'This is the practice quote from id 6',6),
+(18,'This is the practice quote 2 from id 6',6),
+(19,'This is the practice quote 3 from id 6',6),
+(20,'This is the practice quote 4 from id 6',6),
+(21,'This is the practice quote 4 from id 7',7);
 /*!40000 ALTER TABLE `quote` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -120,6 +119,52 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `all_philosophers`()
 BEGIN
 	select p.id, p.name,p.date_of_birth , p.date_of_death ,p.image_url 
 	from philosopher p;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'IGNORE_SPACE,STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `delete_philosopher` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `delete_philosopher`(id_input int unsigned)
+    MODIFIES SQL DATA
+BEGIN
+	delete from philosopher 
+	where id = id_input;
+	select row_count();
+	commit;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'IGNORE_SPACE,STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `delete_quote` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `delete_quote`(quote_id_input int unsigned)
+    MODIFIES SQL DATA
+BEGIN
+	delete from quote 
+	where id = quote_id_input;
+	select row_count();
+	commit;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -179,4 +224,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-10-08  1:34:47
+-- Dump completed on 2022-10-08 11:49:43
