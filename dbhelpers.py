@@ -43,6 +43,9 @@ def execute_statement(cursor,statement,list=[]):
     except mariadb.ProgrammingError as error:
         print('Programming Error: ',error)
         return str(error)
+    except mariadb.OperationalError as error:
+        print('Operation Error', error)
+        return str(error)
     except TypeError as error:
         print('Type Error: ',error)
         return str(error)

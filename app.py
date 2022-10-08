@@ -29,7 +29,12 @@ def philosopher_quotes_history():
 
 @app.post('/api/quote')
 def insert_quote_content():
-    invalid = verify_endpoints_info(request.json,[])
+    invalid = verify_endpoints_info(request.json,['id', 'content'])
+    if(invalid != None):
+        return make_response(json.dumps(invalid, default=str), 400)
+    results_json = get_display_results('call insert_quote_content(?,?)',
+    [request.json.get('id'),request.json.get('content')])
+    return results_json
 
 
 app.run(debug=True)
